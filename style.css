@@ -375,6 +375,80 @@ footer {
   section { padding: 64px 0; }
 }
 
+/* ---------- inner page hero (non-home pages) ---------- */
+.page-hero {
+  padding: 72px 0 56px;
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(226,35,26,0.10), transparent 55%),
+    linear-gradient(180deg, #0a0a0a 0%, #0d0d0d 100%);
+}
+.page-hero h1 { font-size: clamp(34px, 4.6vw, 52px); margin-bottom: 14px; }
+.page-hero p.lede { font-size: 17px; max-width: 60ch; color: #cfcfcf; margin: 0; }
+
+/* ---------- 4-up card grid variant ---------- */
+.card-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 900px) { .card-grid.cols-4 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .card-grid.cols-4 { grid-template-columns: 1fr; } }
+
+/* ---------- app store badges (promo) ---------- */
+.app-badges { display: flex; gap: 20px; flex-wrap: wrap; margin: 32px 0 0; }
+.app-badges a { display: inline-block; transition: opacity .15s, transform .15s; }
+.app-badges a:hover { opacity: .85; transform: translateY(-2px); }
+.app-badges img { height: 52px; width: auto; border-radius: var(--radius); }
+.price-note { font-family: 'Oswald', sans-serif; letter-spacing: .04em; color: var(--white); font-size: 15px; margin-bottom: 4px; }
+
+/* ---------- clients grid (promo) ---------- */
+.clients-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.client-card { background: var(--panel); border: 1px solid var(--line); padding: 22px; text-align: center; transition: border-color .18s; }
+.client-card:hover { border-color: var(--red-dim); }
+.client-card img { max-height: 60px; width: auto; margin: 0 auto 14px; object-fit: contain; }
+.client-card h3 { font-size: 13px; letter-spacing: .03em; margin: 0; }
+@media (max-width: 900px) { .clients-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 560px) { .clients-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* ---------- how-it-works steps (gametap) ---------- */
+.steps-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
+.step-card { position: relative; }
+.step-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--red); color: var(--white);
+  font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600;
+  margin-bottom: 14px;
+}
+.step-shot { border: 1px solid var(--line); background: #000; overflow: hidden; margin-bottom: 16px; }
+.step-shot img { width: 100%; display: block; }
+.step-card h3 { font-size: 14.5px; margin-bottom: 6px; }
+.step-card p { font-size: 13px; margin: 0; }
+@media (max-width: 900px) { .steps-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 560px) { .steps-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* ---------- event card (events) ---------- */
+.event-card {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
+  background: var(--panel); border: 1px solid var(--line); padding: 36px;
+}
+.event-card .event-tag {
+  display: inline-block; font-family: 'Oswald', sans-serif; font-size: 11.5px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+  border: 1px solid var(--line); padding: 4px 10px; margin-bottom: 16px;
+}
+.event-card h3 { font-size: 22px; margin-bottom: 6px; }
+.event-card .event-sub { color: #cfcfcf; font-size: 14.5px; margin-bottom: 18px; }
+.event-card .event-detail { font-size: 14px; margin: 0 0 6px; color: var(--white); }
+.event-card .event-detail strong { color: var(--red); }
+@media (max-width: 900px) { .event-card { grid-template-columns: 1fr; } }
+
+/* ---------- iframe embed panels (facility & NCS pages) ---------- */
+.embed-section { margin-bottom: 64px; }
+.embed-section:last-child { margin-bottom: 0; }
+.embed-section h2 { font-size: 19px; margin-bottom: 12px; }
+.embed-section p { font-size: 14px; margin-bottom: 18px; }
+.embed-frame iframe { width: 100%; border: 0; display: block; background: #000; }
+.facility-hero { padding: 56px 0 8px; }
+.facility-hero h1 { font-size: clamp(28px, 3.6vw, 40px); margin-bottom: 6px; }
+
 /* focus visibility */
 a:focus-visible, button:focus-visible {
   outline: 2px solid var(--red);
