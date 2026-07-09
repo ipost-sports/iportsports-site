@@ -84,46 +84,46 @@
 
       <div class="card-grid">
 
-        <article class="feature-card">
+        <article class="feature-card" data-video="https://ipostsports.com/wp-content/uploads/2025/05/Instant-Replay.mp4">
           <div class="icon-wrap"><img src="https://e9s.7ba.myftpupload.com/wp-content/uploads/2023/10/replay.png" alt="" loading="lazy"></div>
           <h3>Instant Replay</h3>
           <p>Go back and review the play. Easy-to-use controls give you two minutes to access and re-watch the action.</p>
-          <a class="learn" href="#">Learn More →</a>
+          <button class="learn" type="button" onclick="openFeatureVideo(this)">Learn More →</button>
         </article>
 
-        <article class="feature-card">
+        <article class="feature-card" data-video="https://ipostsports.com/wp-content/uploads/2025/05/Clip-Capture.mp4">
           <div class="icon-wrap"><img src="https://e9s.7ba.myftpupload.com/wp-content/uploads/2023/10/clipcapture.png" alt="" loading="lazy"></div>
           <h3>Live Clip Capture</h3>
           <p>Hit the filmstrip icon to save the last two minutes of what the camera saw. It saves straight to your cloud storage.</p>
-          <a class="learn" href="#">Learn More →</a>
+          <button class="learn" type="button" onclick="openFeatureVideo(this)">Learn More →</button>
         </article>
 
-        <article class="feature-card">
+        <article class="feature-card" data-video="https://ipostsports.com/wp-content/uploads/2025/10/8mb.video-Ymy-6nBx9WKX.mp4">
           <div class="icon-wrap"><img src="https://ipostsports.com/wp-content/uploads/2025/10/filemanager.png" alt="" loading="lazy"></div>
           <h3>File Manager</h3>
           <p>Access recorded games and practices. Manage downloads and collect highlight clips in one simple interface.</p>
-          <a class="learn" href="#">Learn More →</a>
+          <button class="learn" type="button" onclick="openFeatureVideo(this)">Learn More →</button>
         </article>
 
-        <article class="feature-card">
+        <article class="feature-card" data-video="https://ipostsports.com/wp-content/uploads/2025/10/Scorekeeper.mp4">
           <div class="icon-wrap"><img src="https://ipostsports.com/wp-content/uploads/2025/10/score-1.png" alt="" loading="lazy"></div>
           <h3>Scorekeeper</h3>
           <p>Keep track of the current score and period of the game. Simple and easy-to-use interface. Anyone on the network can be a scorekeeper.</p>
-          <a class="learn" href="#">Learn More →</a>
+          <button class="learn" type="button" onclick="openFeatureVideo(this)">Learn More →</button>
         </article>
 
-        <article class="feature-card">
+        <article class="feature-card" data-video="https://ipostsports.com/wp-content/uploads/2025/05/Cloud-Storage.mp4">
           <div class="icon-wrap"><img src="https://e9s.7ba.myftpupload.com/wp-content/uploads/2023/10/cloud.png" alt="" loading="lazy"></div>
           <h3>Cloud Storage</h3>
           <p>Your videos are yours, saved to your private cloud account. Download, edit, share, post, enjoy.</p>
-          <a class="learn" href="#">Learn More →</a>
+          <button class="learn" type="button" onclick="openFeatureVideo(this)">Learn More →</button>
         </article>
 
-        <article class="feature-card">
+        <article class="feature-card" data-video="https://ipostsports.com/wp-content/uploads/2025/05/Field-Integration.mp4">
           <div class="icon-wrap"><img src="https://e9s.7ba.myftpupload.com/wp-content/uploads/2023/12/Untitled-drawing-38.png" alt="" loading="lazy"></div>
           <h3>Smart Integration</h3>
           <p>We install internet, Wi-Fi, and cameras at your field, gym, or sports facility, enabling you to have the best tech available.</p>
-          <a class="learn" href="#">Learn More →</a>
+          <button class="learn" type="button" onclick="openFeatureVideo(this)">Learn More →</button>
         </article>
 
       </div>
@@ -228,6 +228,37 @@
     <p class="copyright">© 2026 iPost Sports. All rights reserved.</p>
   </div>
 </footer>
+
+<div id="feature-video-overlay" class="fv-overlay" onclick="if(event.target===this) closeFeatureVideo()">
+  <div class="fv-modal">
+    <button class="fv-close" type="button" onclick="closeFeatureVideo()" aria-label="Close">&times;</button>
+    <video id="fv-video" controls playsinline></video>
+    <div class="fv-info">
+      <h3 id="fv-title"></h3>
+      <p id="fv-desc"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+function openFeatureVideo(btn) {
+  const card = btn.closest('.feature-card');
+  const video = document.getElementById('fv-video');
+  document.getElementById('fv-title').textContent = card.querySelector('h3').textContent;
+  document.getElementById('fv-desc').textContent = card.querySelector('p').textContent;
+  video.src = card.dataset.video;
+  document.getElementById('feature-video-overlay').classList.add('on');
+  video.play();
+}
+function closeFeatureVideo() {
+  const video = document.getElementById('fv-video');
+  video.pause();
+  video.removeAttribute('src');
+  video.load();
+  document.getElementById('feature-video-overlay').classList.remove('on');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeFeatureVideo(); });
+</script>
 
 </body>
 </html>

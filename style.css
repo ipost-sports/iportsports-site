@@ -286,12 +286,60 @@ section { padding: 96px 0; }
   letter-spacing: 0.1em;
   color: var(--red);
   text-transform: uppercase;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
 }
+
+/* ---------- feature video modal ---------- */
+.fv-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0,0,0,.86);
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.fv-overlay.on { display: flex; }
+.fv-modal {
+  position: relative;
+  background: #0d0d0d;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  max-width: 720px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: auto;
+}
+.fv-modal video { width: 100%; display: block; background: #000; max-height: 60vh; }
+.fv-info { padding: 24px 28px 28px; }
+.fv-info h3 { font-size: 20px; margin-bottom: 8px; }
+.fv-info p { font-size: 14.5px; color: #cfcfcf; margin: 0; }
+.fv-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.08);
+  border: 1px solid var(--line);
+  color: var(--white);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2;
+}
+.fv-close:hover { border-color: var(--red); color: var(--red); }
 
 /* ---------- resources ---------- */
 .resource-row {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 16px;
   margin-top: 48px;
   border-top: 1px solid var(--line);
@@ -313,6 +361,7 @@ section { padding: 96px 0; }
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
+.testimonial-strip .section-head { padding-left: 40px; }
 .testimonial-strip .section-head .eyebrow { color: var(--red); }
 .testimonial-strip .section-head h2 { color: #0a0a0a; }
 .t-grid {
