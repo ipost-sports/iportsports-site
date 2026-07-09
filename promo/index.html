@@ -58,60 +58,7 @@
         <h2>Some of Our Clients</h2>
       </div>
 
-      <div class="clients-grid" id="clients-grid">
-        <div class="client-card">
-          <img src="https://e9s.7ba.myftpupload.com/wp-content/uploads/2023/11/Untitled-drawing-13.png" alt="Tustin High School" loading="lazy">
-          <h3>Tustin High School</h3>
-        </div>
-        <div class="client-card">
-          <img src="https://e9s.7ba.myftpupload.com/wp-content/uploads/2023/11/Untitled-drawing-15.png" alt="La Habra High School" loading="lazy">
-          <h3>La Habra High School</h3>
-        </div>
-        <div class="client-card">
-          <img src="https://e9s.7ba.myftpupload.com/wp-content/uploads/2023/11/Untitled-drawing-16.png" alt="Beckman High School" loading="lazy">
-          <h3>Beckman High School</h3>
-        </div>
-        <div class="client-card">
-          <img src="https://e9s.7ba.myftpupload.com/wp-content/uploads/2023/11/Untitled-drawing-17.png" alt="Canyon High School" loading="lazy">
-          <h3>Canyon High School</h3>
-        </div>
-        <div class="client-card">
-          <img src="https://e9s.7ba.myftpupload.com/wp-content/uploads/2023/11/Untitled-drawing-12.png" alt="Los Alamitos High School" loading="lazy">
-          <h3>Los Alamitos High School</h3>
-        </div>
-        <div class="client-card">
-          <img src="https://ipostsports.com/wp-content/uploads/2024/10/buenapark-1.png" alt="Buena Park High School" loading="lazy">
-          <h3>Buena Park High School</h3>
-        </div>
-        <div class="client-card">
-          <img src="https://ipostsports.com/wp-content/uploads/2024/10/sonora.png" alt="Sonora High School" loading="lazy">
-          <h3>Sonora High School</h3>
-        </div>
-        <div class="client-card">
-          <img src="https://ipostsports.com/wp-content/uploads/2024/10/fv.png" alt="Fountain Valley High School" loading="lazy">
-          <h3>Fountain Valley High School</h3>
-        </div>
-        <div class="client-card">
-          <img src="https://ipostsports.com/wp-content/uploads/2024/10/uni.png" alt="University High School" loading="lazy">
-          <h3>University High School</h3>
-        </div>
-        <div class="client-card">
-          <img src="https://ipostsports.com/wp-content/uploads/2025/03/lamirada.png" alt="La Mirada High School" loading="lazy">
-          <h3>La Mirada High School</h3>
-        </div>
-        <div class="client-card">
-          <img src="https://ipostsports.com/wp-content/uploads/2025/03/eldorado.png" alt="El Dorado High School" loading="lazy">
-          <h3>El Dorado High School</h3>
-        </div>
-        <div class="client-card">
-          <img src="https://ipostsports.com/wp-content/uploads/2025/03/yorbalinda.png" alt="Yorba Linda High School" loading="lazy">
-          <h3>Yorba Linda High School</h3>
-        </div>
-        <div class="client-card">
-          <img src="https://ipostsports.com/wp-content/uploads/2025/03/newport.png" alt="Newport Harbor High School" loading="lazy">
-          <h3>Newport Harbor High School</h3>
-        </div>
-      </div>
+      <div class="clients-grid" id="clients-grid"></div>
     </div>
   </section>
 
@@ -151,6 +98,30 @@
 (async function () {
   const CMS_API = 'https://cms.ipostsports.net/api';
   const SCHOOLS_JSON = 'https://raw.githubusercontent.com/wyvurnyt/schools/refs/heads/main/main.json';
+  const grid = document.getElementById('clients-grid');
+
+  const FALLBACK = [
+    ['https://e9s.7ba.myftpupload.com/wp-content/uploads/2023/11/Untitled-drawing-13.png', 'Tustin High School'],
+    ['https://e9s.7ba.myftpupload.com/wp-content/uploads/2023/11/Untitled-drawing-15.png', 'La Habra High School'],
+    ['https://e9s.7ba.myftpupload.com/wp-content/uploads/2023/11/Untitled-drawing-16.png', 'Beckman High School'],
+    ['https://e9s.7ba.myftpupload.com/wp-content/uploads/2023/11/Untitled-drawing-17.png', 'Canyon High School'],
+    ['https://e9s.7ba.myftpupload.com/wp-content/uploads/2023/11/Untitled-drawing-12.png', 'Los Alamitos High School'],
+    ['https://ipostsports.com/wp-content/uploads/2024/10/buenapark-1.png', 'Buena Park High School'],
+    ['https://ipostsports.com/wp-content/uploads/2024/10/sonora.png', 'Sonora High School'],
+    ['https://ipostsports.com/wp-content/uploads/2024/10/fv.png', 'Fountain Valley High School'],
+    ['https://ipostsports.com/wp-content/uploads/2024/10/uni.png', 'University High School'],
+    ['https://ipostsports.com/wp-content/uploads/2025/03/lamirada.png', 'La Mirada High School'],
+    ['https://ipostsports.com/wp-content/uploads/2025/03/eldorado.png', 'El Dorado High School'],
+    ['https://ipostsports.com/wp-content/uploads/2025/03/yorbalinda.png', 'Yorba Linda High School'],
+    ['https://ipostsports.com/wp-content/uploads/2025/03/newport.png', 'Newport Harbor High School']
+  ];
+
+  function renderCards(items) {
+    grid.innerHTML = items.map(([src, name]) => `<div class="client-card">
+      <img src="${src}" alt="${name}" loading="lazy">
+      <h3>${name}</h3>
+    </div>`).join('');
+  }
 
   function schoolKey(title) {
     return title
@@ -165,30 +136,28 @@
       fetch(`${CMS_API}/facilities?fields[0]=title&fields[1]=slug&populate[0]=type&pagination[limit]=200&sort=title:asc`),
       fetch(SCHOOLS_JSON)
     ]);
-    if (!facRes.ok || !schoolRes.ok) return;
+    if (!facRes.ok || !schoolRes.ok) { renderCards(FALLBACK); return; }
 
     const facilities = (await facRes.json()).data || [];
     const schools = await schoolRes.json();
 
     const seen = new Set();
-    const cards = facilities
+    const items = facilities
       .filter(f => f.type && f.type.id === 1)
       .sort((a, b) => a.title.localeCompare(b.title))
-      .reduce((html, f) => {
+      .reduce((list, f) => {
         const key = schoolKey(f.title);
-        if (seen.has(key) || !schools[key]) return html;
+        if (seen.has(key) || !schools[key]) return list;
         seen.add(key);
         const imgId = schools[key][1];
         const name = f.title.replace(/\s*(Baseball|Softball)\s*$/i, '');
-        return html + `<div class="client-card">
-          <img src="https://i.imgur.com/${imgId}.png" alt="${name}" loading="lazy">
-          <h3>${name}</h3>
-        </div>`;
-      }, '');
+        list.push([`https://i.imgur.com/${imgId}.png`, name]);
+        return list;
+      }, []);
 
-    if (cards) document.getElementById('clients-grid').innerHTML = cards;
+    renderCards(items.length ? items : FALLBACK);
   } catch (e) {
-    // CMS unreachable — static fallback list already in the page stays put
+    renderCards(FALLBACK);
   }
 })();
 </script>
