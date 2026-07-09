@@ -202,6 +202,22 @@ nav.primary-nav a:hover { opacity: 1; color: var(--red); }
   border-radius: var(--radius);
   background: #000;
 }
+.hero-media.hand-shot {
+  position: absolute;
+  right: -70px;
+  bottom: -40px;
+  width: 640px;
+  max-width: 55vw;
+  pointer-events: none;
+}
+.hero-media.hand-shot img {
+  width: 100%;
+  border-radius: 0;
+  background: none;
+}
+@media (max-width: 900px) {
+  .hero-media.hand-shot { position: static; width: 80%; max-width: 360px; margin: 32px auto 0; }
+}
 
 .stat-strip {
   border-top: 1px solid var(--line);
