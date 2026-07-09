@@ -204,8 +204,8 @@ nav.primary-nav a:hover { opacity: 1; color: var(--red); }
 }
 .hero-media.hand-shot {
   position: absolute;
-  right: -70px;
-  bottom: -40px;
+  right: -15px;
+  bottom: -10px;
   width: 640px;
   max-width: 55vw;
   pointer-events: none;
@@ -422,7 +422,7 @@ footer {
   font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600;
   margin-bottom: 14px;
 }
-.step-shot { border: 1px solid var(--line); background: #000; overflow: hidden; margin-bottom: 16px; }
+.step-shot { border: 1px solid var(--line); overflow: hidden; margin-bottom: 16px; }
 .step-shot img { width: 100%; display: block; }
 .step-card h3 { font-size: 14.5px; margin-bottom: 6px; }
 .step-card p { font-size: 13px; margin: 0; }
