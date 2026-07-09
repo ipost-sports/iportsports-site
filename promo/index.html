@@ -58,7 +58,9 @@
         <h2>Some of Our Clients</h2>
       </div>
 
-      <div class="clients-grid" id="clients-grid"></div>
+      <div class="clients-grid" id="clients-grid">
+        <div class="clients-status">Loading…</div>
+      </div>
     </div>
   </section>
 
@@ -100,27 +102,15 @@
   const SCHOOLS_JSON = 'https://raw.githubusercontent.com/wyvurnyt/schools/refs/heads/main/main.json';
   const grid = document.getElementById('clients-grid');
 
-  const FALLBACK = [
-    ['https://e9s.7ba.myftpupload.com/wp-content/uploads/2023/11/Untitled-drawing-13.png', 'Tustin High School'],
-    ['https://e9s.7ba.myftpupload.com/wp-content/uploads/2023/11/Untitled-drawing-15.png', 'La Habra High School'],
-    ['https://e9s.7ba.myftpupload.com/wp-content/uploads/2023/11/Untitled-drawing-16.png', 'Beckman High School'],
-    ['https://e9s.7ba.myftpupload.com/wp-content/uploads/2023/11/Untitled-drawing-17.png', 'Canyon High School'],
-    ['https://e9s.7ba.myftpupload.com/wp-content/uploads/2023/11/Untitled-drawing-12.png', 'Los Alamitos High School'],
-    ['https://ipostsports.com/wp-content/uploads/2024/10/buenapark-1.png', 'Buena Park High School'],
-    ['https://ipostsports.com/wp-content/uploads/2024/10/sonora.png', 'Sonora High School'],
-    ['https://ipostsports.com/wp-content/uploads/2024/10/fv.png', 'Fountain Valley High School'],
-    ['https://ipostsports.com/wp-content/uploads/2024/10/uni.png', 'University High School'],
-    ['https://ipostsports.com/wp-content/uploads/2025/03/lamirada.png', 'La Mirada High School'],
-    ['https://ipostsports.com/wp-content/uploads/2025/03/eldorado.png', 'El Dorado High School'],
-    ['https://ipostsports.com/wp-content/uploads/2025/03/yorbalinda.png', 'Yorba Linda High School'],
-    ['https://ipostsports.com/wp-content/uploads/2025/03/newport.png', 'Newport Harbor High School']
-  ];
-
   function renderCards(items) {
     grid.innerHTML = items.map(([src, name]) => `<div class="client-card">
       <img src="${src}" alt="${name}" loading="lazy">
       <h3>${name}</h3>
     </div>`).join('');
+  }
+
+  function renderStatus(msg) {
+    grid.innerHTML = `<div class="clients-status">${msg}</div>`;
   }
 
   function schoolKey(title) {
@@ -136,7 +126,7 @@
       fetch(`${CMS_API}/facilities?fields[0]=title&fields[1]=slug&populate[0]=type&pagination[limit]=200&sort=title:asc`),
       fetch(SCHOOLS_JSON)
     ]);
-    if (!facRes.ok || !schoolRes.ok) { renderCards(FALLBACK); return; }
+    if (!facRes.ok || !schoolRes.ok) { renderStatus('Failed to load clients.'); return; }
 
     const facilities = (await facRes.json()).data || [];
     const schools = await schoolRes.json();
@@ -155,9 +145,10 @@
         return list;
       }, []);
 
-    renderCards(items.length ? items : FALLBACK);
+    if (items.length) renderCards(items);
+    else renderStatus('Failed to load clients.');
   } catch (e) {
-    renderCards(FALLBACK);
+    renderStatus('Failed to load clients.');
   }
 })();
 </script>
