@@ -58,7 +58,7 @@
         <h2>Some of Our Clients</h2>
       </div>
 
-      <div class="clients-grid">
+      <div class="clients-grid" id="clients-grid">
         <div class="client-card">
           <img src="https://e9s.7ba.myftpupload.com/wp-content/uploads/2023/11/Untitled-drawing-13.png" alt="Tustin High School" loading="lazy">
           <h3>Tustin High School</h3>
@@ -146,6 +146,52 @@
     <p class="copyright">© 2026 iPost Sports. All rights reserved.</p>
   </div>
 </footer>
+
+<script>
+(async function () {
+  const CMS_API = 'https://cms.ipostsports.net/api';
+  const SCHOOLS_JSON = 'https://raw.githubusercontent.com/wyvurnyt/schools/refs/heads/main/main.json';
+
+  function schoolKey(title) {
+    return title
+      .toLowerCase()
+      .replace(/high school/g, '')
+      .replace(/baseball|softball/g, '')
+      .replace(/[^a-z]/g, '');
+  }
+
+  try {
+    const [facRes, schoolRes] = await Promise.all([
+      fetch(`${CMS_API}/facilities?fields[0]=title&fields[1]=slug&populate[0]=type&pagination[limit]=200&sort=title:asc`),
+      fetch(SCHOOLS_JSON)
+    ]);
+    if (!facRes.ok || !schoolRes.ok) return;
+
+    const facilities = (await facRes.json()).data || [];
+    const schools = await schoolRes.json();
+
+    const seen = new Set();
+    const cards = facilities
+      .filter(f => f.type && f.type.id === 1)
+      .sort((a, b) => a.title.localeCompare(b.title))
+      .reduce((html, f) => {
+        const key = schoolKey(f.title);
+        if (seen.has(key) || !schools[key]) return html;
+        seen.add(key);
+        const imgId = schools[key][1];
+        const name = f.title.replace(/\s*(Baseball|Softball)\s*$/i, '');
+        return html + `<div class="client-card">
+          <img src="https://i.imgur.com/${imgId}.png" alt="${name}" loading="lazy">
+          <h3>${name}</h3>
+        </div>`;
+      }, '');
+
+    if (cards) document.getElementById('clients-grid').innerHTML = cards;
+  } catch (e) {
+    // CMS unreachable — static fallback list already in the page stays put
+  }
+})();
+</script>
 
 </body>
 </html>
