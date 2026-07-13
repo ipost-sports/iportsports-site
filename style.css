@@ -445,6 +445,18 @@ footer {
 @media (max-width: 900px) { .card-grid.cols-4 { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .card-grid.cols-4 { grid-template-columns: 1fr; } }
 
+/* ---------- facility photo row ---------- */
+.facility-photos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.facility-photos img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+}
+@media (max-width: 900px) { .facility-photos { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .facility-photos { grid-template-columns: 1fr; } }
+
 /* ---------- app store badges (promo) ---------- */
 .app-badges { display: flex; gap: 20px; flex-wrap: wrap; margin: 32px 0 0; }
 .app-badges a { display: inline-block; transition: opacity .15s, transform .15s; }
