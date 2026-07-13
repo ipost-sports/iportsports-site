@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Start Streaming — iPost Sports</title>
+<title>Team Streaming — iPost Sports</title>
 <meta name="description" content="Download the iPost Sports app from the App Store or Google Play and start streaming games from facilities nationwide. $9.99/month.">
 <link rel="stylesheet" href="/style.css">
 </head>
@@ -18,9 +18,9 @@
       <ul>
         <li><a href="/">Home</a></li>
         <li><a href="/facilities/">Smart Sports Facility</a></li>
-        <li><a href="/gametap/">GameTap</a></li>
-        <li><a href="/promo/">Start Streaming</a></li>
-        <li><a href="/coaches/">Coaches/Stream Admin</a></li>
+        <li><a href="/promo/">Team Streaming</a></li>
+        <li><a href="/gametap/">Visitor Access</a></li>
+        <li><a href="/streamadmin/">Stream Admin</a></li>
       </ul>
     </nav>
     <div class="nav-actions">
@@ -37,7 +37,7 @@
   <section class="page-hero">
     <div class="container">
       <span class="live-dot"><span class="pulse"></span> Available on iOS &amp; Android</span>
-      <h1>Start <span class="accent" style="color:var(--red)">Streaming</span></h1>
+      <h1>Team <span class="accent" style="color:var(--red)">Streaming</span></h1>
       <p class="lede">Download the app from the App Store or Google Play.</p>
       <p class="price-note">$9.99 / month subscription</p>
       <div class="app-badges">
@@ -47,20 +47,6 @@
         <a href="https://play.google.com/store/apps/details?id=com.ipostsportsinc.app&utm_source=na_Med" target="_blank" rel="noopener">
           <img src="https://ipostsports.com/wp-content/uploads/2025/03/google.png" alt="Get it on Google Play">
         </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CLIENTS -->
-  <section id="clients" class="section-alt">
-    <div class="container">
-      <div class="section-head">
-        <span class="eyebrow">Trusted Nationwide</span>
-        <h2>Some of Our Clients</h2>
-      </div>
-
-      <div class="clients-grid" id="clients-grid">
-        <div class="clients-status">Loading…</div>
       </div>
     </div>
   </section>
@@ -96,63 +82,6 @@
     <p class="copyright">© 2026 iPost Sports. All rights reserved.</p>
   </div>
 </footer>
-
-<script>
-(async function () {
-  const CMS_API = 'https://cms.ipostsports.net/api';
-  const SCHOOLS_JSON = 'https://raw.githubusercontent.com/wyvurnyt/schools/refs/heads/main/main.json';
-  const grid = document.getElementById('clients-grid');
-
-  function renderCards(items) {
-    grid.innerHTML = items.map(([src, name]) => `<div class="client-card">
-      <img src="${src}" alt="${name}" loading="lazy">
-      <h3>${name}</h3>
-    </div>`).join('');
-  }
-
-  function renderStatus(msg) {
-    grid.innerHTML = `<div class="clients-status">${msg}</div>`;
-  }
-
-  function schoolKey(title) {
-    return title
-      .toLowerCase()
-      .replace(/high school/g, '')
-      .replace(/baseball|softball/g, '')
-      .replace(/[^a-z]/g, '');
-  }
-
-  try {
-    const [facRes, schoolRes] = await Promise.all([
-      fetch(`${CMS_API}/facilities?fields[0]=title&fields[1]=slug&populate[0]=type&pagination[limit]=200&sort=title:asc`),
-      fetch(SCHOOLS_JSON)
-    ]);
-    if (!facRes.ok || !schoolRes.ok) { renderStatus('Failed to load clients.'); return; }
-
-    const facilities = (await facRes.json()).data || [];
-    const schools = await schoolRes.json();
-
-    const seen = new Set();
-    const items = facilities
-      .filter(f => f.type && f.type.id === 1)
-      .sort((a, b) => a.title.localeCompare(b.title))
-      .reduce((list, f) => {
-        const key = schoolKey(f.title);
-        if (seen.has(key) || !schools[key]) return list;
-        seen.add(key);
-        const imgId = schools[key][1];
-        const name = f.title.replace(/\s*(Baseball|Softball)\s*$/i, '');
-        list.push([`https://i.imgur.com/${imgId}.png`, name]);
-        return list;
-      }, []);
-
-    if (items.length) renderCards(items);
-    else renderStatus('Failed to load clients.');
-  } catch (e) {
-    renderStatus('Failed to load clients.');
-  }
-})();
-</script>
 
 </body>
 </html>

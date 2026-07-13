@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Events — iPost Sports</title>
-<meta name="description" content="Upcoming and past streaming events powered by iPost Sports.">
+<title>Highlight Gallery — iPost Sports</title>
+<meta name="description" content="See the schools and teams iPost Sports streams for nationwide.">
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -33,43 +33,17 @@
 
 <main>
 
-  <!-- PAGE HERO -->
-  <section class="page-hero">
-    <div class="container">
-      <span class="live-dot"><span class="pulse"></span> Streaming events</span>
-      <h1>Streaming <span class="accent" style="color:var(--red)">Events</span></h1>
-      <p class="lede">Tournaments and leagues we stream live and on demand, with access passes for out-of-town fans and scouts.</p>
-    </div>
-  </section>
-
-  <!-- EVENTS -->
-  <section id="events-list" class="section-alt">
+  <!-- CLIENTS -->
+  <section id="clients">
     <div class="container">
       <div class="section-head">
-        <span class="eyebrow">Featured Event</span>
-        <h2>Upcoming Streaming Events</h2>
+        <span class="eyebrow">Trusted Nationwide</span>
+        <h2>Some of Our Clients</h2>
       </div>
 
-      <div class="event-card viewfinder">
-        <span class="vf-tr"></span><span class="vf-br"></span>
-        <div>
-          <span class="event-tag">October 8 – November 21, 2024</span>
-          <h3>Ryan Lemmon Fall League 2024</h3>
-          <p class="event-sub">Live Stream and Video on Demand</p>
-          <p class="event-detail"><strong>Venue —</strong> Windrow Park, Field 1 &amp; Field 2</p>
-          <a class="btn btn-solid" href="https://ipostsports.ticketspice.com/ryan-lemmon-fall-league-2024" target="_blank" rel="noopener" style="margin-top:20px; display:inline-block;">Access Pass</a>
-        </div>
-        <img src="https://ipostsports.com/wp-content/uploads/2024/10/f1-1536x833.png" alt="Windrow Park Field 1, home of the Ryan Lemmon Fall League" loading="lazy" style="border-radius:var(--radius);">
+      <div class="clients-grid" id="clients-grid">
+        <div class="clients-status">Loading…</div>
       </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta-band">
-    <div class="container">
-      <h2>Hosting a <span class="accent" style="color:var(--red)">tournament</span>?</h2>
-      <p>Add live streaming, instant replay, and on-demand clips as a value-add for your teams and fans.</p>
-      <a class="btn btn-solid" href="/promo/" style="padding:16px 36px; font-size:14px;">Start Streaming</a>
     </div>
   </section>
 
@@ -95,6 +69,63 @@
     <p class="copyright">© 2026 iPost Sports. All rights reserved.</p>
   </div>
 </footer>
+
+<script>
+(async function () {
+  const CMS_API = 'https://cms.ipostsports.net/api';
+  const SCHOOLS_JSON = 'https://raw.githubusercontent.com/wyvurnyt/schools/refs/heads/main/main.json';
+  const grid = document.getElementById('clients-grid');
+
+  function renderCards(items) {
+    grid.innerHTML = items.map(([src, name]) => `<div class="client-card">
+      <img src="${src}" alt="${name}" loading="lazy">
+      <h3>${name}</h3>
+    </div>`).join('');
+  }
+
+  function renderStatus(msg) {
+    grid.innerHTML = `<div class="clients-status">${msg}</div>`;
+  }
+
+  function schoolKey(title) {
+    return title
+      .toLowerCase()
+      .replace(/high school/g, '')
+      .replace(/baseball|softball/g, '')
+      .replace(/[^a-z]/g, '');
+  }
+
+  try {
+    const [facRes, schoolRes] = await Promise.all([
+      fetch(`${CMS_API}/facilities?fields[0]=title&fields[1]=slug&populate[0]=type&pagination[limit]=200&sort=title:asc`),
+      fetch(SCHOOLS_JSON)
+    ]);
+    if (!facRes.ok || !schoolRes.ok) { renderStatus('Failed to load clients.'); return; }
+
+    const facilities = (await facRes.json()).data || [];
+    const schools = await schoolRes.json();
+
+    const seen = new Set();
+    const items = facilities
+      .filter(f => f.type && f.type.id === 1)
+      .sort((a, b) => a.title.localeCompare(b.title))
+      .reduce((list, f) => {
+        const key = schoolKey(f.title);
+        if (seen.has(key) || !schools[key]) return list;
+        seen.add(key);
+        const imgId = schools[key][1];
+        const name = f.title.replace(/\s*(Baseball|Softball)\s*$/i, '');
+        list.push([`https://i.imgur.com/${imgId}.png`, name]);
+        return list;
+      }, []);
+
+    if (items.length) renderCards(items);
+    else renderStatus('Failed to load clients.');
+  } catch (e) {
+    renderStatus('Failed to load clients.');
+  }
+})();
+</script>
 
 </body>
 </html>

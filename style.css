@@ -495,9 +495,10 @@ footer {
 .event-card .event-detail strong { color: var(--red); }
 @media (max-width: 900px) { .event-card { grid-template-columns: 1fr; } }
 
-/* ---------- tab showcase (coaches) ---------- */
+/* ---------- tab showcase (stream admin) ---------- */
 .tab-showcase-list { display: flex; flex-direction: column; gap: 28px; }
-.tab-showcase img { border-radius: var(--radius); }
+.tab-showcase { grid-template-columns: 1fr; gap: 24px; }
+.tab-showcase img { width: 100%; border-radius: var(--radius); }
 .tab-showcase ul { margin: 0; padding-left: 18px; }
 .tab-showcase ul li { font-size: 14px; color: #b8b8b8; margin-bottom: 10px; line-height: 1.55; }
 .tab-showcase ul li:last-child { margin-bottom: 0; }
