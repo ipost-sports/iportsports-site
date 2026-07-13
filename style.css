@@ -280,9 +280,6 @@ section { padding: 96px 0; }
 .feature-card .icon-wrap img { width: 56px; height: 56px; object-fit: contain; }
 .feature-card h3 { font-size: 18px; margin-bottom: 10px; }
 .feature-card p { font-size: 14.5px; margin: 0 0 16px; }
-.feature-card ul { margin: 0; padding-left: 18px; }
-.feature-card ul li { font-size: 13.5px; color: #b8b8b8; margin-bottom: 8px; line-height: 1.5; }
-.feature-card ul li:last-child { margin-bottom: 0; }
 .feature-card .learn {
   font-family: 'Oswald', sans-serif;
   font-size: 12.5px;
@@ -497,6 +494,13 @@ footer {
 .event-card .event-detail { font-size: 14px; margin: 0 0 6px; color: var(--white); }
 .event-card .event-detail strong { color: var(--red); }
 @media (max-width: 900px) { .event-card { grid-template-columns: 1fr; } }
+
+/* ---------- tab showcase (coaches) ---------- */
+.tab-showcase-list { display: flex; flex-direction: column; gap: 28px; }
+.tab-showcase img { border-radius: var(--radius); }
+.tab-showcase ul { margin: 0; padding-left: 18px; }
+.tab-showcase ul li { font-size: 14px; color: #b8b8b8; margin-bottom: 10px; line-height: 1.55; }
+.tab-showcase ul li:last-child { margin-bottom: 0; }
 
 /* ---------- iframe embed panels (facility & NCS pages) ---------- */
 .embed-section { margin-bottom: 64px; }
