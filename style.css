@@ -430,6 +430,21 @@ footer {
   .t-grid { grid-template-columns: 1fr; }
   nav.primary-nav { display: none; }
   .menu-toggle { display: block; }
+  nav.primary-nav.open {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: 20px 24px 28px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+  }
+  nav.primary-nav.open ul {
+    flex-direction: column;
+    gap: 22px;
+  }
+  nav.primary-nav.open a { font-size: 15px; }
 }
 @media (max-width: 560px) {
   .card-grid { grid-template-columns: 1fr; }
