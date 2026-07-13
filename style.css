@@ -292,6 +292,14 @@ section { padding: 96px 0; }
   cursor: pointer;
 }
 
+/* ---------- compact feature cards (It's really simple to use) ---------- */
+#features .card-grid { gap: 18px; }
+#features .feature-card { padding: 20px; }
+#features .feature-card .icon-wrap { width: 44px; height: 44px; margin-bottom: 12px; }
+#features .feature-card .icon-wrap img { width: 44px; height: 44px; }
+#features .feature-card h3 { font-size: 16px; margin-bottom: 6px; }
+#features .feature-card p { font-size: 13.5px; margin-bottom: 10px; }
+
 /* ---------- feature video modal ---------- */
 .fv-overlay {
   display: none;
