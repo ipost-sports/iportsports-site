@@ -489,7 +489,8 @@ footer {
 
 /* ---------- clients grid (promo) ---------- */
 .clients-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-.client-card { background: #fff; border: 1px solid var(--line); padding: 22px; text-align: center; transition: border-color .18s; }
+.client-card { display: block; background: #fff; border: 1px solid var(--line); padding: 22px; text-align: center; transition: border-color .18s, transform .18s; }
+.client-card:hover { transform: translateY(-2px); }
 .client-card:hover { border-color: var(--red-dim); }
 .client-card img { max-height: 92px; width: auto; margin: 0 auto 14px; object-fit: contain; }
 .client-card h3 { font-size: 13px; letter-spacing: .03em; margin: 0; color: #0a0a0a; }
@@ -546,6 +547,63 @@ footer {
 .embed-frame iframe { width: 100%; border: 0; display: block; background: #000; }
 .facility-hero { padding: 56px 0 8px; }
 .facility-hero h1 { font-size: clamp(28px, 3.6vw, 40px); margin-bottom: 6px; }
+
+/* ---------- gallery breadcrumb (school page) ---------- */
+.gallery-bc { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 40px; }
+.gallery-bc a, .gallery-bc button {
+  background: none; border: none; padding: 0; cursor: pointer;
+  font-family: 'Oswald', sans-serif; font-size: 14px; letter-spacing: .04em;
+  color: var(--muted); transition: color .12s;
+}
+.gallery-bc a:hover, .gallery-bc button:hover { color: var(--red); }
+.gallery-bc span.sep { color: var(--muted); }
+.gallery-bc span.cur { font-family: 'Oswald', sans-serif; font-size: 14px; letter-spacing: .04em; color: var(--white); }
+
+/* ---------- sport picker (school page) ---------- */
+.sport-list { display: flex; flex-direction: column; gap: 2px; margin-bottom: 8px; }
+.sport-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 18px 20px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+  cursor: pointer; transition: border-color .15s, background .15s;
+}
+.sport-row:hover { border-color: var(--red-dim); background: var(--panel-2); }
+.sport-row .sport-name { flex: 1; font-family: 'Oswald', sans-serif; font-size: 16px; letter-spacing: .03em; }
+.sport-row .sport-count { font-size: 13px; color: var(--muted); font-family: 'Oswald', sans-serif; }
+.sport-row .sport-arrow { color: var(--muted); font-size: 16px; transition: transform .12s; }
+.sport-row:hover .sport-arrow { transform: translateX(3px); color: var(--red); }
+
+/* ---------- video category rows (school page) ---------- */
+.video-section { margin-bottom: 48px; }
+.video-section:last-child { margin-bottom: 0; }
+.video-section h3 {
+  font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px;
+}
+.video-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+.video-card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.video-thumb { position: relative; aspect-ratio: 16 / 9; background: var(--panel-2); }
+.video-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.video-duration {
+  position: absolute; bottom: 8px; right: 8px;
+  background: rgba(0,0,0,.75); color: var(--white);
+  font-family: 'Oswald', sans-serif; font-size: 11px; letter-spacing: .03em;
+  padding: 2px 7px; border-radius: 4px;
+}
+.video-card-body { padding: 12px 14px; }
+.video-card-body h4 { font-size: 14px; font-weight: 500; margin: 0; }
+
+.video-empty {
+  display: flex; align-items: center; gap: 18px;
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 20px 24px;
+}
+.video-empty-thumb {
+  width: 88px; aspect-ratio: 16 / 9; flex-shrink: 0;
+  background: var(--panel-2); border: 1px solid var(--line); border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+}
+.video-empty-thumb svg { width: 24px; height: 24px; fill: var(--muted); }
+.video-empty p { font-size: 14px; color: var(--muted); margin: 0; }
 
 /* focus visibility */
 a:focus-visible, button:focus-visible {

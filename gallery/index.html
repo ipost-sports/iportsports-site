@@ -19,7 +19,7 @@
         <li><a href="/">Home</a></li>
         <li><a href="/facilities/">Smart Sports Facility</a></li>
         <li><a href="/streammanager/">Stream Manager</a></li>
-        <li><a href="/highlight-gallery/">Highlight Gallery</a></li>
+        <li><a href="/gallery/">Highlight Gallery</a></li>
       </ul>
     </nav>
     <div class="nav-actions">
@@ -76,10 +76,10 @@
   const grid = document.getElementById('clients-grid');
 
   function renderCards(items) {
-    grid.innerHTML = items.map(([src, name]) => `<div class="client-card">
+    grid.innerHTML = items.map(([src, name, id]) => `<a class="client-card" href="/gallery/${id}/">
       <img src="${src}" alt="${name}" loading="lazy">
       <h3>${name}</h3>
-    </div>`).join('');
+    </a>`).join('');
   }
 
   function renderStatus(msg) {
@@ -114,7 +114,7 @@
         seen.add(key);
         const imgId = schools[key][1];
         const name = f.title.replace(/\s*(Baseball|Softball)\s*$/i, '');
-        list.push([`https://i.imgur.com/${imgId}.png`, name]);
+        list.push([`https://i.imgur.com/${imgId}.png`, name, f.id]);
         return list;
       }, []);
 
