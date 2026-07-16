@@ -44,14 +44,6 @@
   <section class="section-alt">
     <div class="container">
 
-      <div class="gallery-bc" id="bc" style="display:none;">
-        <a href="/gallery/">Gallery</a>
-        <span class="sep">›</span>
-        <button type="button" id="bc-school" onclick="backToSports()"></button>
-        <span class="sep">›</span>
-        <span class="cur" id="bc-sport"></span>
-      </div>
-
       <!-- STEP 1: sport picker -->
       <div id="step-sport">
         <div class="section-head" style="margin-bottom:24px;">
@@ -108,15 +100,35 @@
 <script>
 const CMS_API = 'https://cms.ipostsports.net/api';
 
-// Grabs the numeric facility id iPost Sports assigns each school/venue —
-// this page is served for any /gallery/<id>/ via a Vercel rewrite, so the
-// same static file works for every facility without generating one per school.
+// Grabs the numeric facility id iPost Sports assigns each school/venue, and
+// (optionally) the sport slug — this page is served for any /gallery/<id>/
+// or /gallery/<id>/<sport>/ via a Vercel rewrite, so the same static file
+// works for every facility and sport without generating one per school.
+function getPathParts() {
+  return window.location.pathname.replace(/^\/|\/$/g, '').split('/');
+}
 function getFacilityId() {
-  const parts = window.location.pathname.replace(/^\/|\/$/g, '').split('/');
+  const parts = getPathParts();
   if (parts.length >= 2 && /^\d+$/.test(parts[1])) return parts[1];
   return new URLSearchParams(window.location.search).get('id');
 }
+function getSportSlug() {
+  const parts = getPathParts();
+  if (parts.length >= 3 && parts[2]) return decodeURIComponent(parts[2]);
+  return new URLSearchParams(window.location.search).get('sport');
+}
+function slugify(s) {
+  return s.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
 const FACILITY_ID = getFacilityId();
+const SPORT_SLUG = getSportSlug();
+
+const EMOJI = { baseball: '⚾', softball: '🥎', basketball: '🏀', football: '🏈', soccer: '⚽', volleyball: '🏐', tennis: '🎾', track: '🏃', swimming: '🏊' };
+function getEmoji(sport) {
+  const k = (sport || '').toLowerCase();
+  for (const [w, e] of Object.entries(EMOJI)) if (k.includes(w)) return e;
+  return '🏟️';
+}
 
 // No highlight-video content type exists on the CMS yet. Each category here
 // is empty until that endpoint is built — renderCategory() below treats an
@@ -167,53 +179,48 @@ function renderCategory(containerId, videos) {
 
     zones = facility.zone || [];
     const title = facility.title || 'Highlight Gallery';
+
+    const sportTitles = [...new Set(zones.map(z => z.sport?.title || 'Other'))];
+
+    if (SPORT_SLUG) {
+      const match = sportTitles.find(s => slugify(s) === SPORT_SLUG);
+      if (match) {
+        showVideos(title, match);
+        return;
+      }
+    }
+
     document.getElementById('school-title').textContent = title;
     document.getElementById('school-sub').textContent = 'Pick a sport to see offense, defense, and extraordinary highlights.';
-    document.getElementById('bc-school').textContent = title;
 
-    const map = {};
-    zones.forEach(z => {
-      const s = z.sport?.title || 'Other';
-      map[s] = (map[s] || 0) + (z.camera ? z.camera.length : 0);
-    });
-
-    const sports = Object.keys(map);
-    if (!sports.length) {
+    if (!sportTitles.length) {
       document.getElementById('sport-list').innerHTML = '<div class="clients-status" style="grid-column:auto;">No sports available for this school yet.</div>';
       return;
     }
 
-    document.getElementById('sport-list').innerHTML = sports.map(s => `
-      <div class="sport-row" onclick="openSport('${s.replace(/'/g, "\\'")}')">
+    document.getElementById('sport-list').innerHTML = sportTitles.map(s => `
+      <a class="sport-row" href="/gallery/${FACILITY_ID}/${slugify(s)}/">
+        <span class="sport-emoji">${getEmoji(s)}</span>
         <span class="sport-name">${s}</span>
-        <span class="sport-count">${map[s]} camera${map[s] === 1 ? '' : 's'}</span>
         <span class="sport-arrow">→</span>
-      </div>`).join('');
+      </a>`).join('');
   } catch (e) {
     document.getElementById('school-title').textContent = 'Highlight Gallery';
     document.getElementById('sport-list').innerHTML = '<div class="clients-status" style="grid-column:auto;">Could not load this school right now.</div>';
   }
 })();
 
-function openSport(sport) {
+function showVideos(title, sport) {
   currentSport = sport;
+  document.title = `${sport} Highlights — ${title} — iPost Sports`;
+  document.getElementById('school-title').textContent = `${title} — ${sport}`;
+  document.getElementById('school-sub').textContent = 'Offense, defense, and extraordinary highlights.';
   document.getElementById('step-sport').style.display = 'none';
   document.getElementById('step-videos').style.display = '';
-  document.getElementById('bc').style.display = 'flex';
-  document.getElementById('bc-sport').textContent = sport;
 
   renderCategory('cat-offense', HIGHLIGHTS.offense);
   renderCategory('cat-defense', HIGHLIGHTS.defense);
   renderCategory('cat-extraordinary', HIGHLIGHTS.extraordinary);
-
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function backToSports() {
-  document.getElementById('step-videos').style.display = 'none';
-  document.getElementById('step-sport').style.display = '';
-  document.getElementById('bc').style.display = 'none';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
 

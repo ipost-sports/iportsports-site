@@ -548,17 +548,6 @@ footer {
 .facility-hero { padding: 56px 0 8px; }
 .facility-hero h1 { font-size: clamp(28px, 3.6vw, 40px); margin-bottom: 6px; }
 
-/* ---------- gallery breadcrumb (school page) ---------- */
-.gallery-bc { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 40px; }
-.gallery-bc a, .gallery-bc button {
-  background: none; border: none; padding: 0; cursor: pointer;
-  font-family: 'Oswald', sans-serif; font-size: 14px; letter-spacing: .04em;
-  color: var(--muted); transition: color .12s;
-}
-.gallery-bc a:hover, .gallery-bc button:hover { color: var(--red); }
-.gallery-bc span.sep { color: var(--muted); }
-.gallery-bc span.cur { font-family: 'Oswald', sans-serif; font-size: 14px; letter-spacing: .04em; color: var(--white); }
-
 /* ---------- sport picker (school page) ---------- */
 .sport-list { display: flex; flex-direction: column; gap: 2px; margin-bottom: 8px; }
 .sport-row {
@@ -567,8 +556,8 @@ footer {
   cursor: pointer; transition: border-color .15s, background .15s;
 }
 .sport-row:hover { border-color: var(--red-dim); background: var(--panel-2); }
+.sport-row .sport-emoji { font-size: 22px; width: 28px; text-align: center; flex-shrink: 0; }
 .sport-row .sport-name { flex: 1; font-family: 'Oswald', sans-serif; font-size: 16px; letter-spacing: .03em; }
-.sport-row .sport-count { font-size: 13px; color: var(--muted); font-family: 'Oswald', sans-serif; }
 .sport-row .sport-arrow { color: var(--muted); font-size: 16px; transition: transform .12s; }
 .sport-row:hover .sport-arrow { transform: translateX(3px); color: var(--red); }
 

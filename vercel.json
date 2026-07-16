@@ -3,6 +3,8 @@
     { "source": "/:slug(beckmanbb|brent|bsclaw001|buenaparkbb|doug|edhsbb|fran|fvbbvar|hsallstar|jimmyv|lahabrabb|lahsbb|lahsbb-old|lahssb|lamiradasb|laybs|laybs-sb|mpkarg25|nphbb|peter|proathletics|rover|sonorabb|sonorasb|steve|tustinbb|unibb|vippreview|woodbridge|yorbalindabb)", "destination": "/facility.html" },
     { "source": "/:slug(beckmanbb|brent|bsclaw001|buenaparkbb|doug|edhsbb|fran|fvbbvar|hsallstar|jimmyv|lahabrabb|lahsbb|lahsbb-old|lahssb|lamiradasb|laybs|laybs-sb|mpkarg25|nphbb|peter|proathletics|rover|sonorabb|sonorasb|steve|tustinbb|unibb|vippreview|woodbridge|yorbalindabb)/", "destination": "/facility.html" },
     { "source": "/gallery/:id(\\d+)", "destination": "/gallery/school.html" },
-    { "source": "/gallery/:id(\\d+)/", "destination": "/gallery/school.html" }
+    { "source": "/gallery/:id(\\d+)/", "destination": "/gallery/school.html" },
+    { "source": "/gallery/:id(\\d+)/:sport", "destination": "/gallery/school.html" },
+    { "source": "/gallery/:id(\\d+)/:sport/", "destination": "/gallery/school.html" }
   ]
 }
